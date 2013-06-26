@@ -1,0 +1,3 @@
+[submodule "Stucco/Vendor/simple-json"]
+	path = Stucco/Vendor/simple-json
+	url = git@github.com:facebook-csharp-sdk/simple-json.git
