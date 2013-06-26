@@ -17,6 +17,7 @@ Global
 		Release|iPhone = Release|iPhone
 		Ad-Hoc|iPhone = Ad-Hoc|iPhone
 		AppStore|iPhone = AppStore|iPhone
+		RunTests|iPhoneSimulator = RunTests|iPhoneSimulator
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{7230D0F7-57EB-40CF-9DC1-B8F53D57968B}.Ad-Hoc|iPhone.ActiveCfg = Ad-Hoc|iPhone
@@ -35,6 +36,8 @@ Global
 		{7230D0F7-57EB-40CF-9DC1-B8F53D57968B}.Release|iPhone.Build.0 = Release|iPhone
 		{7230D0F7-57EB-40CF-9DC1-B8F53D57968B}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
 		{7230D0F7-57EB-40CF-9DC1-B8F53D57968B}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+		{7230D0F7-57EB-40CF-9DC1-B8F53D57968B}.RunTests|iPhoneSimulator.ActiveCfg = RunTests|iPhoneSimulator
+		{7230D0F7-57EB-40CF-9DC1-B8F53D57968B}.RunTests|iPhoneSimulator.Build.0 = RunTests|iPhoneSimulator
 		{9E4AFC4C-DC6C-4EB3-9132-A17A171F9F81}.Ad-Hoc|iPhone.ActiveCfg = Debug|Any CPU
 		{9E4AFC4C-DC6C-4EB3-9132-A17A171F9F81}.Ad-Hoc|iPhone.Build.0 = Debug|Any CPU
 		{9E4AFC4C-DC6C-4EB3-9132-A17A171F9F81}.AppStore|iPhone.ActiveCfg = Debug|Any CPU
@@ -51,6 +54,8 @@ Global
 		{9E4AFC4C-DC6C-4EB3-9132-A17A171F9F81}.Release|iPhone.Build.0 = Release|Any CPU
 		{9E4AFC4C-DC6C-4EB3-9132-A17A171F9F81}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{9E4AFC4C-DC6C-4EB3-9132-A17A171F9F81}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{9E4AFC4C-DC6C-4EB3-9132-A17A171F9F81}.RunTests|iPhoneSimulator.ActiveCfg = RunTests|iPhoneSimulator
+		{9E4AFC4C-DC6C-4EB3-9132-A17A171F9F81}.RunTests|iPhoneSimulator.Build.0 = RunTests|iPhoneSimulator
 		{D2BC67BD-3E5F-478E-9D4C-33F28F0ED4D5}.Ad-Hoc|iPhone.ActiveCfg = Debug|Any CPU
 		{D2BC67BD-3E5F-478E-9D4C-33F28F0ED4D5}.Ad-Hoc|iPhone.Build.0 = Debug|Any CPU
 		{D2BC67BD-3E5F-478E-9D4C-33F28F0ED4D5}.AppStore|iPhone.ActiveCfg = Debug|Any CPU
@@ -67,8 +72,18 @@ Global
 		{D2BC67BD-3E5F-478E-9D4C-33F28F0ED4D5}.Release|iPhone.Build.0 = Release|Any CPU
 		{D2BC67BD-3E5F-478E-9D4C-33F28F0ED4D5}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{D2BC67BD-3E5F-478E-9D4C-33F28F0ED4D5}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{D2BC67BD-3E5F-478E-9D4C-33F28F0ED4D5}.RunTests|iPhoneSimulator.ActiveCfg = RunTests|iPhoneSimulator
+		{D2BC67BD-3E5F-478E-9D4C-33F28F0ED4D5}.RunTests|iPhoneSimulator.Build.0 = RunTests|iPhoneSimulator
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Stucco\Stucco.csproj
+		StartupItem = StuccoTests\StuccoTests.csproj
+		Policies = $0
+		$0.VersionControlPolicy = $1
+		$1.inheritsSet = Mono
+		$0.ChangeLogPolicy = $2
+		$2.UpdateMode = None
+		$2.MessageStyle = $3
+		$3.LineAlign = 0
+		$2.inheritsSet = Mono
 	EndGlobalSection
 EndGlobal

@@ -1,5 +1,6 @@
 using System;
 using NUnit.Framework;
+using System.IO;
 
 namespace StuccoTests
 {
@@ -7,23 +8,25 @@ namespace StuccoTests
 	public class Basic
 	{
 		[Test]
-		public void Pass()
+		public void LoadSomeJSON()
 		{
-			Stucco.Loader loader = new Stucco.Loader("fart");
-			Assert.True(true);
+			Assert.DoesNotThrow(delegate {
+				(new Stucco.Loader("./TestData/valid_json.json")).Begin();
+			});
 		}
 
 		[Test]
-		public void Fail()
+		public void PukeOnInvalidJSON()
 		{
-			Assert.False(true);
-		}
+			// bad syntax
+			Assert.Throws<System.Runtime.Serialization.SerializationException>(delegate {
+				(new Stucco.Loader("./TestData/invalid_json.json")).Begin();
+			});
 
-		[Test]
-		[Ignore ("another time")]
-		public void Ignore()
-		{
-			Assert.True(false);
+			// root object must be an object
+			Assert.Throws<System.Runtime.Serialization.SerializationException>(delegate {
+				(new Stucco.Loader("./TestData/invalid_json2.json")).Begin();
+			});
 		}
 	}
 }

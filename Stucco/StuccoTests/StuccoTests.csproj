@@ -75,6 +75,12 @@
     <ConsolePause>false</ConsolePause>
     <CodesignProvision>Automatic:AppStore</CodesignProvision>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'RunTests|iPhoneSimulator' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhoneSimulator\RunTests</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <MtouchLink>None</MtouchLink>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -84,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="TestData\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -99,5 +106,10 @@
       <Project>{9E4AFC4C-DC6C-4EB3-9132-A17A171F9F81}</Project>
       <Name>Stucco</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestData\invalid_json.json" />
+    <Content Include="TestData\valid_json.json" />
+    <Content Include="TestData\invalid_json2.json" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,7 @@
+{
+	"hello": "why hello",
+	"why": "you look friendly",
+	"thanks": [
+		"so", "do", "you", 1, 1.1, true, false
+	]
+}
