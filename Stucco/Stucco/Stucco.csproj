@@ -48,6 +48,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Compile Include="Loader.cs" />
+    <Compile Include="TypeRegistry.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Vendor\simple-json-lib\simple-json-lib.csproj">

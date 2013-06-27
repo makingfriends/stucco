@@ -11,7 +11,7 @@ namespace StuccoTests
 		public void LoadSomeJSON()
 		{
 			Assert.DoesNotThrow(delegate {
-				(new Stucco.Loader("./TestData/valid_json.json")).Begin();
+				(new Stucco.Loader("./TestData/valid_json.json")).ReadFile();
 			});
 		}
 
@@ -20,12 +20,12 @@ namespace StuccoTests
 		{
 			// bad syntax
 			Assert.Throws<System.Runtime.Serialization.SerializationException>(delegate {
-				(new Stucco.Loader("./TestData/invalid_json.json")).Begin();
+				(new Stucco.Loader("./TestData/invalid_json.json")).ReadFile();
 			});
 
 			// root object must be an object
 			Assert.Throws<System.Runtime.Serialization.SerializationException>(delegate {
-				(new Stucco.Loader("./TestData/invalid_json2.json")).Begin();
+				(new Stucco.Loader("./TestData/invalid_json2.json")).ReadFile();
 			});
 		}
 	}

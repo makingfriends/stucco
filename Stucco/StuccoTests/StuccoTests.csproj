@@ -91,6 +91,7 @@
   <ItemGroup>
     <Folder Include="Resources\" />
     <Folder Include="TestData\" />
+    <Folder Include="TestData\ast\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -99,6 +100,8 @@
     <Compile Include="Main.cs" />
     <Compile Include="UnitTestAppDelegate.cs" />
     <Compile Include="Basic.cs" />
+    <Compile Include="ASTTest.cs" />
+    <Compile Include="TypeRegistryTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -111,5 +114,6 @@
     <Content Include="TestData\invalid_json.json" />
     <Content Include="TestData\valid_json.json" />
     <Content Include="TestData\invalid_json2.json" />
+    <Content Include="TestData\ast\ast_simple.json" />
   </ItemGroup>
 </Project>
