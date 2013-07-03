@@ -1,0 +1,21 @@
+{
+    "type": "StuccoTests.AST.ILevel",
+    "parameters": {
+        "name": "Test Level"
+    },
+    "some_random_value": "fart",
+    "children": [
+        {
+            "type": "StuccoTests.AST.IPerson",
+            "parameters": {
+                "name": "billy"
+            }
+        },
+        {
+            "type": "StuccoTests.AST.ITree",
+            "parameters": {
+                "name": "fart"
+            }
+        }
+    ]
+}

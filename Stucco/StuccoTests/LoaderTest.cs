@@ -5,7 +5,7 @@ using System.IO;
 namespace StuccoTests
 {
 	[TestFixture]
-	public class Basic
+	public class LoaderTests
 	{
 		[Test]
 		public void LoadSomeJSON()

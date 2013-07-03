@@ -139,5 +139,85 @@ namespace StuccoTests.AST
 
 			Assert.True(found, "could not find the child that should've been added");
 		}
+
+		[Test]
+		public void PukeWhenChildrenNotAnArray()
+		{
+
+		}
+
+		[Test]
+		public void PukeWhenChildrenContentsNotANode()
+		{
+
+		}
+
+		[Test]
+		public void LongProperty()
+		{
+			var l = new Stucco.Loader("./TestData/ast/ast_props.json");
+			var go = l.Parse<IGameObject>();
+			Assert.AreEqual(42, go.GetLong("i_am_an_int"));
+		}
+
+		[Test]
+		public void FloatProperty()
+		{
+			var l = new Stucco.Loader("./TestData/ast/ast_props.json");
+			var go = l.Parse<IGameObject>();
+			Assert.AreEqual(4.20, go.GetDouble("i_am_a_float"));
+		}
+
+		[Test]
+		public void BoolProperty()
+		{
+			var l = new Stucco.Loader("./TestData/ast/ast_props.json");
+			var go = l.Parse<IGameObject>();
+			Assert.AreEqual(false, go.GetBool("i_am_a_bool"));
+		}
+
+		[Test]
+		public void StrProperty()
+		{
+			var l = new Stucco.Loader("./TestData/ast/ast_props.json");
+			var go = l.Parse<IGameObject>();
+			Assert.AreEqual("faz bat", go.GetString("i_am_a_string"));
+		}
+
+		[Test]
+		public void PukeWhenPropertiesNotADictionary()
+		{
+			Assert.Throws<NotSupportedException>(delegate() {
+				var l = new Stucco.Loader("./TestData/ast/ast_props_invalid_props.json");
+				l.Parse<IGameObject>();
+			});
+		}
+
+		[Test]
+		public void PukeWhenPropertiesHaveInvalidTypes()
+		{
+			Assert.Throws<Stucco.UnknownTypeException>(delegate() {
+				var l = new Stucco.Loader("./TestData/ast/ast_props_invalid_typ.json");
+				l.Parse<IGameObject>();
+			});
+		}
+
+		[Test]
+		public void PukeWhenNodeTypeIsntAString()
+		{
+			Assert.Throws<NotSupportedException>(delegate () {
+				var l = new Stucco.Loader("./TestData/ast/ast_invalid_type_typ.json");
+				l.Parse<IGameObject>();
+			});
+		}
+
+		[Test]
+		public void PukeWhenNodeDoesntHaveAType()
+		{
+			Assert.Throws<NotSupportedException>(delegate () {
+				var l = new Stucco.Loader("./TestData/ast/ast_missing_type.json");
+				l.Parse<IGameObject>();
+			});
+		}
 	}
 }

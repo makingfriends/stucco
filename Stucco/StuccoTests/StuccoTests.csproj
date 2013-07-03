@@ -95,13 +95,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
+    <None Include="TestData\ast\ast_with_invalid_keys.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="UnitTestAppDelegate.cs" />
-    <Compile Include="Basic.cs" />
     <Compile Include="ASTTest.cs" />
     <Compile Include="TypeRegistryTest.cs" />
+    <Compile Include="LoaderTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -115,5 +116,14 @@
     <Content Include="TestData\valid_json.json" />
     <Content Include="TestData\invalid_json2.json" />
     <Content Include="TestData\ast\ast_simple.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="TestData\ast\ast_props.json">
+      <DependentUpon>ast_props_invalid_typ.json</DependentUpon>
+    </BundleResource>
+    <BundleResource Include="TestData\ast\ast_props_invalid_typ.json" />
+    <BundleResource Include="TestData\ast\ast_props_invalid_props.json" />
+    <BundleResource Include="TestData\ast\ast_invalid_type_typ.json" />
+    <BundleResource Include="TestData\ast\ast_missing_type.json" />
   </ItemGroup>
 </Project>

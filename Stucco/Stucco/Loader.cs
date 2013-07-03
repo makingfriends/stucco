@@ -46,12 +46,22 @@ namespace Stucco
 	public delegate void NodeChildVisitor<T>(T node);
 	public partial interface INode
 	{
-		//		void Configure(string key, string value);
-		//
-		//		void Configure(string key, int value);
-		//
-		//		void Configure(string key, float value);
-		//
+		void Set(string key, string value);
+
+		void Set(string key, long value);
+
+		void Set(string key, double value);
+
+		void Set(string key, bool value);
+
+		long GetLong(string key);
+
+		double GetDouble(string key);
+
+		bool GetBool(string key);
+
+		string GetString(string key);
+
 		void AddChild<T>(T child) where T : INode;
 
 		void VisitChildren<T>(NodeChildVisitor<T> visitor) where T : INode;
@@ -71,16 +81,21 @@ namespace Stucco
 				return _children;
 			}
 		}
+		// todo: can make these lazy to save memory
+		IDictionary<string, long> LongConfigs = new Dictionary<string, long>();
+		IDictionary<string, double> DoubleConfigs = new Dictionary<string, double>();
+		IDictionary<string, bool> BoolConfigs = new Dictionary<string, bool>();
+		IDictionary<string, string> StrConfigs = new Dictionary<string, string>();
 
 		public static T Construct<T>(IDictionary<string, object> content) where T : INode
 		{
 			// load the name
 			object tname;
 			if (!content.TryGetValue("type", out tname)) {
-				throw new Exception("All AST nodes must have a type in " + content);
+				throw new NotSupportedException("All AST nodes must have a type in " + content);
 			}
 			if (!(tname is string)) {
-				throw new Exception("Type name must be a string");
+				throw new NotSupportedException("Type name must be a string");
 			}
 			string name = tname as string;
 
@@ -92,14 +107,38 @@ namespace Stucco
 			object tchildren;
 			if (content.TryGetValue("children", out tchildren)) { // "children" is optional
 				if (!(tchildren is IList<object>)) {
-					throw new Exception("`children` must be a list.");
+					throw new NotSupportedException("`children` must be a list.");
 				}
 				List<object> children = tchildren as List<object>;
 				foreach (object tchild in children) {
 					if (!(tchild is IDictionary<string, object>)) {
-						throw new Exception("`children` must be a list containing dictionaries.");
+						throw new NotSupportedException("`children` must be a list containing dictionaries.");
 					}
 					val.AddChild<T>(Construct<T>(tchild as IDictionary<string, object>));
+				}
+			}
+
+			// set configuration values
+			object tprops;
+			if (content.TryGetValue("properties", out tprops)) {
+				Console.WriteLine("type: " + tprops.GetType());
+				if (!(tprops is IDictionary<string, object>)) {
+					throw new NotSupportedException("`properties` must be a dictionary");
+				}
+				IDictionary<string, object> props = tprops as IDictionary<string, object>;
+				foreach (var prop in props) {
+					var typ = prop.Value.GetType();
+					if (typ == typeof(long)) {
+						val.Set(prop.Key, (long)prop.Value);
+					} else if (typ == typeof(double)) {
+						val.Set(prop.Key, (double)prop.Value);
+					} else if (typ == typeof(bool)) {
+						val.Set(prop.Key, (bool)prop.Value);
+					} else if (typ == typeof(string)) {
+						val.Set(prop.Key, (string)prop.Value);
+					} else {
+						throw new UnknownTypeException("property " + prop.Key + " must be a integer, float, boolean, or string");
+					}
 				}
 			}
 
@@ -123,6 +162,46 @@ namespace Stucco
 			foreach (T item in _children[typeof(T)]) {
 				visitor(item);
 			}
+		}
+
+		public void Set(string key, long value)
+		{
+			LongConfigs[key] = value;
+		}
+
+		public void Set(string key, double value)
+		{
+			DoubleConfigs[key] = value;
+		}
+
+		public void Set(string key, bool value)
+		{
+			BoolConfigs[key] = value;
+		}
+
+		public void Set(string key, string value)
+		{
+			StrConfigs[key] = value;
+		}
+
+		public long GetLong(string key)
+		{
+			return LongConfigs[key];
+		}
+
+		public double GetDouble(string key)
+		{
+			return DoubleConfigs[key];
+		}
+
+		public bool GetBool(string key)
+		{
+			return BoolConfigs[key];
+		}
+
+		public string GetString(string key)
+		{
+			return StrConfigs[key];
 		}
 	}
 }

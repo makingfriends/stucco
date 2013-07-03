@@ -1,0 +1,7 @@
+{
+    "type": "StuccoTests.AST.ILevel",
+    "properties": {
+        "i_am_silly": { "hello": "fart" },
+        "i_am_also_silly": ["hurk"]
+    }
+}

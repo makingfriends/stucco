@@ -13,7 +13,7 @@ namespace Stucco
 		{
 		}
 	}
-	// look up classes. THIS IS **NOT** THREAD SAFE
+	// look up classes. THIS IS **NOT** expected to be THREAD SAFE
 	public class TypeRegistry
 	{
 		// first level cache (caches GetInstance<T>(string))

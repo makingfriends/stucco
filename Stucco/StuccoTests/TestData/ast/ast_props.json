@@ -1,0 +1,9 @@
+{
+    "type": "StuccoTests.AST.ILevel",
+    "properties": {
+        "i_am_a_string": "faz bat",
+        "i_am_an_int": 42,
+        "i_am_a_float": 4.20,
+        "i_am_a_bool": false,
+    }
+}
