@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Loader.cs" />
     <Compile Include="TypeRegistry.cs" />
+    <Compile Include="DefaultDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Vendor\simple-json-lib\simple-json-lib.csproj">

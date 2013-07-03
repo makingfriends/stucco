@@ -23,15 +23,15 @@ namespace StuccoTests.AST
 	{
 	}
 
-	public class TestLevel : ILevel
+	public class TestLevel : Stucco.Node, ILevel
 	{
 	}
 
-	public class TestPerson : IPerson
+	public class TestPerson : Stucco.Node, IPerson
 	{
 	}
 
-	public class TestTree : ITree
+	public class TestTree : Stucco.Node, ITree
 	{
 	}
 
@@ -39,7 +39,7 @@ namespace StuccoTests.AST
 	{
 	}
 
-	public class SomeRandomImplementation : SomeRandomInterface
+	public class SomeRandomImplementation : Stucco.Node, SomeRandomInterface
 	{
 	}
 
@@ -68,13 +68,52 @@ namespace StuccoTests.AST
 				{ "type", "StuccoTests.AST.ITree" }
 			};
 			Assert.DoesNotThrow(delegate {
-				Console.WriteLine("faak");
 				IGameObject go = Stucco.Node.Construct<IGameObject>(d);
-				Console.WriteLine("shit");
-				Assert.True(go is IGameObject);
+				Assert.True(go != null);
 				Assert.True(go is ITree);
 				Assert.True(go is TestTree);
 			});
+		}
+
+		[Test]
+		public void CanAddChild()
+		{
+			var d = new Dictionary<string, object> { { "type", "StuccoTests.AST.ITree" } };
+			IGameObject go = Stucco.Node.Construct<IGameObject>(d);
+			var p = new Dictionary<string, object> { { "type", "StuccoTests.AST.IPerson" } };
+			IGameObject po = Stucco.Node.Construct<IGameObject>(p);
+
+			// first, ensure that we don't puke while adding the child
+			Assert.DoesNotThrow(delegate {
+				go.AddChild<IGameObject>(po);
+			});
+
+			// then, ensure that we can find the child that was just added.
+			bool found = false;
+			go.VisitChildren<IGameObject>(delegate(IGameObject person) {
+				found = true;
+				Assert.True(person == po);
+			});
+			Assert.True(found, "couldn't find the child that was added");
+		}
+
+		[Test]
+		public void ChildTypesCascade()
+		{
+			var d = new Dictionary<string, object> { { "type", "StuccoTests.AST.ITree" } };
+			IGameObject go = Stucco.Node.Construct<IGameObject>(d);
+			var p = new Dictionary<string, object> { { "type", "StuccoTests.AST.IPerson" } };
+			IGameObject po = Stucco.Node.Construct<IGameObject>(p);
+
+			go.AddChild<IGameObject>(po); // this should add a child entry for IGameObject and IPerson
+
+			// child types must be accessible by both 
+			bool found = false;
+			go.VisitChildren<IPerson>(delegate(IPerson person) { // essentially meaning, get all people
+				found = true;
+				Assert.True(person == po, "did not refer to the same value");
+			});
+			Assert.True(found, "couldn't find the child node that was added");
 		}
 	}
 }

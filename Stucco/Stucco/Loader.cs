@@ -43,7 +43,7 @@ namespace Stucco
 			return Node.Construct<T>(fileData);
 		}
 	}
-	public delegate void NodeChildVisitor(INode node);
+	public delegate void NodeChildVisitor<T>(T node);
 	public partial interface INode
 	{
 		//		void Configure(string key, string value);
@@ -52,13 +52,26 @@ namespace Stucco
 		//
 		//		void Configure(string key, float value);
 		//
-		//		void AddChild(INode child);
-		//
-		//		void VisitChildren(NodeChildVisitor visitor);
+		void AddChild<T>(T child) where T : INode;
+
+		void VisitChildren<T>(NodeChildVisitor<T> visitor);
 	}
 
 	public class Node : INode
 	{
+		IDictionary<Type, List<object>> _children;
+
+		public IDictionary<Type, List<object>> Children {
+			get {
+				if (_children == null) {
+					_children = new DefaultDictionary<Type, List<object>>(new Func<List<object>>(delegate () {
+						return new List<object>();
+					}));
+				}
+				return _children;
+			}
+		}
+
 		public static T Construct<T>(IDictionary<string, object> content) where T : INode
 		{
 			object tname;
@@ -70,8 +83,30 @@ namespace Stucco
 			}
 			string name = tname as string;
 			Type iface = TypeRegistry.GetInterface(name);
-			INode val = TypeRegistry.GetInstance<T>(iface);
-			return (T)val;
+			T val = TypeRegistry.GetInstance<T>(iface);
+			return val;
+		}
+
+		public void AddChild<T>(T child) where T : INode
+		{
+			Type kind = typeof(T);
+			Children[kind].Add(child);
+			Type[] subkinds = child.GetType().GetInterfaces();
+			foreach (Type subkind in subkinds) {
+				if (subkind != kind && subkind != typeof(INode)) {
+					Children[subkind].Add(child);
+				}
+			}
+		}
+
+		public void VisitChildren<T>(NodeChildVisitor<T> visitor)
+		{
+			foreach (T item in _children[typeof(T)]) {
+				Console.WriteLine("visiting: " + item);
+				if (item != null) {
+					visitor(item);
+				}
+			}
 		}
 	}
 }
