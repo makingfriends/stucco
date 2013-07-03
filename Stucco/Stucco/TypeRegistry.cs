@@ -23,12 +23,22 @@ namespace Stucco
 		// caches interfaces by name
 		private static Dictionary<string, Type> interfacesCache = new Dictionary<string, Type>();
 
+		/// <summary>
+		/// Gets all implementations of interface.
+		/// </summary>
+		/// <returns>The all implementations of interface.</returns>
+		/// <typeparam name="T">The 1st type parameter.</typeparam>
 		public static List<Type> GetAllImplementationsOfInterface<T>()
 		{
 			Type interfaceType = typeof(T);
 			return GetAllImplementationsOfInterface(interfaceType);
 		}
 
+		/// <summary>
+		/// Gets all implementations of interface.
+		/// </summary>
+		/// <returns>The all implementations of interface.</returns>
+		/// <param name="interfaceType">Interface type.</param>
 		public static List<Type> GetAllImplementationsOfInterface(Type interfaceType)
 		{
 			var typeName = interfaceType.ToString();
@@ -58,6 +68,11 @@ namespace Stucco
 			return result;
 		}
 
+		/// <summary>
+		/// Gets the interface.
+		/// </summary>
+		/// <returns>The interface.</returns>
+		/// <param name="iname">Iname.</param>
 		public static Type GetInterface(string iname)
 		{
 			if (interfacesCache.ContainsKey(iname)) {
@@ -126,9 +141,7 @@ namespace Stucco
 				desiredType = reverseLookupTable[implementationName];
 			} else {
 				List<Type> allImplementations = GetAllImplementationsOfInterface<T>();
-				Console.WriteLine("name: " + implementationName);
 				foreach (Type inspectedType in allImplementations) {
-					Console.WriteLine("implementation: " + inspectedType);
 					if (inspectedType.IsClass && inspectedType.FullName.Equals(implementationName)) {
 						desiredType = inspectedType;
 						reverseLookupTable[implementationName] = desiredType;
