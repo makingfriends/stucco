@@ -225,5 +225,30 @@ namespace StuccoTests.AST
 				l.Parse<IGameObject>();
 			});
 		}
+
+		[Test]
+		public void PukeWhenUnknownKeyFound()
+		{
+			Assert.Throws<NotSupportedException>(delegate () {
+				var l = new Stucco.Loader("./TestData/ast/ast_shit_parameter.json");
+				l.Parse<IGameObject>();
+			});
+		}
+
+		[Test]
+		public void TestSimple()
+		{
+			var l = new Stucco.Loader("./TestData/ast/ast_simple.json");
+			IGameObject go = l.Parse<IGameObject>();
+			Assert.AreEqual("Test Level", go.GetString("name"));
+
+			IList<IPerson> people = new List<IPerson>(go.GetChildren<IPerson>());
+			Assert.AreEqual(1, people.Count);
+			Assert.AreEqual("billy", people[0].GetString("name"));
+
+			IList<ITree> trees = new List<ITree>(go.GetChildren<ITree>());
+			Assert.AreEqual(1, trees.Count);
+			Assert.AreEqual("fart", trees[0].GetString("name"));
+		}
 	}
 }

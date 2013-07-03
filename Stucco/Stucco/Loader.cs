@@ -65,6 +65,8 @@ namespace Stucco
 		void AddChild<T>(T child) where T : INode;
 
 		void VisitChildren<T>(NodeChildVisitor<T> visitor) where T : INode;
+
+		IEnumerable<T> GetChildren<T>() where T : INode;
 	}
 
 	public class Node : INode
@@ -86,9 +88,16 @@ namespace Stucco
 		IDictionary<string, double> DoubleConfigs = new Dictionary<string, double>();
 		IDictionary<string, bool> BoolConfigs = new Dictionary<string, bool>();
 		IDictionary<string, string> StrConfigs = new Dictionary<string, string>();
+		// keys besides this found inside a node will make Construct puke
+		static ISet<string> _supportedKeys = new HashSet<string> { "type", "properties", "children" };
 
 		public static T Construct<T>(IDictionary<string, object> content) where T : INode
 		{
+			foreach (string k in content.Keys) {
+				if (!_supportedKeys.Contains(k)) {
+					throw new NotSupportedException("invalid key: " + k);
+				}
+			}
 			// load the name
 			object tname;
 			if (!content.TryGetValue("type", out tname)) {
@@ -154,6 +163,13 @@ namespace Stucco
 				if (subkind != kind && subkind != typeof(INode)) {
 					Children[subkind].Add(child);
 				}
+			}
+		}
+
+		public IEnumerable<T> GetChildren<T>() where T : INode
+		{
+			foreach (T item in _children[typeof(T)]) {
+				yield return item;
 			}
 		}
 

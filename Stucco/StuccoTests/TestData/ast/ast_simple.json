@@ -1,18 +1,18 @@
 {
     "type": "StuccoTests.AST.ILevel",
-    "parameters": {
+    "properties": {
         "name": "Test Level"
     },
     "children": [
         {
             "type": "StuccoTests.AST.IPerson",
-            "parameters": {
+            "properties": {
                 "name": "billy"
             }
         },
         {
             "type": "StuccoTests.AST.ITree",
-            "parameters": {
+            "properties": {
                 "name": "fart"
             }
         }
