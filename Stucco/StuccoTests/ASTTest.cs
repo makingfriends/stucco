@@ -143,13 +143,19 @@ namespace StuccoTests.AST
 		[Test]
 		public void PukeWhenChildrenNotAnArray()
 		{
-
+			Assert.Throws<NotSupportedException>(delegate () {
+				var l = new Stucco.Loader("./TestData/ast/ast_children_invalid_typ.json");
+				l.Parse<IGameObject>();
+			});
 		}
 
 		[Test]
 		public void PukeWhenChildrenContentsNotANode()
 		{
-
+			Assert.Throws<NotSupportedException>(delegate () {
+				var l = new Stucco.Loader("./TestData/ast/ast_children_invalid_children_typ.json");
+				l.Parse<IGameObject>();
+			});
 		}
 
 		[Test]

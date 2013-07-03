@@ -125,5 +125,7 @@
     <BundleResource Include="TestData\ast\ast_props_invalid_props.json" />
     <BundleResource Include="TestData\ast\ast_invalid_type_typ.json" />
     <BundleResource Include="TestData\ast\ast_missing_type.json" />
+    <BundleResource Include="TestData\ast\ast_children_invalid_typ.json" />
+    <BundleResource Include="TestData\ast\ast_children_invalid_children_typ.json" />
   </ItemGroup>
 </Project>
