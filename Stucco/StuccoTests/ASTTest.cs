@@ -115,5 +115,29 @@ namespace StuccoTests.AST
 			});
 			Assert.True(found, "couldn't find the child node that was added");
 		}
+
+		[Test]
+		public void ConstructAddsChildren()
+		{
+			var d = new Dictionary<string, object> {
+				{ "type", "StuccoTests.AST.ILevel" },
+				{ 
+					"children", new List<object> { 
+						new Dictionary<string, object> { 
+							{ "type", "StuccoTests.AST.ITree" } 
+						} 
+					}
+				}
+			};
+
+			IGameObject go = Stucco.Node.Construct<IGameObject>(d);
+
+			bool found = false;
+			go.VisitChildren<ITree>(delegate(ITree tree) {
+				found = true;
+			});
+
+			Assert.True(found, "could not find the child that should've been added");
+		}
 	}
 }

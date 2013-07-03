@@ -54,14 +54,14 @@ namespace Stucco
 		//
 		void AddChild<T>(T child) where T : INode;
 
-		void VisitChildren<T>(NodeChildVisitor<T> visitor);
+		void VisitChildren<T>(NodeChildVisitor<T> visitor) where T : INode;
 	}
 
 	public class Node : INode
 	{
 		IDictionary<Type, List<object>> _children;
 
-		public IDictionary<Type, List<object>> Children {
+		IDictionary<Type, List<object>> Children {
 			get {
 				if (_children == null) {
 					_children = new DefaultDictionary<Type, List<object>>(new Func<List<object>>(delegate () {
@@ -74,6 +74,7 @@ namespace Stucco
 
 		public static T Construct<T>(IDictionary<string, object> content) where T : INode
 		{
+			// load the name
 			object tname;
 			if (!content.TryGetValue("type", out tname)) {
 				throw new Exception("All AST nodes must have a type in " + content);
@@ -82,8 +83,26 @@ namespace Stucco
 				throw new Exception("Type name must be a string");
 			}
 			string name = tname as string;
+
+			// instantiate the object
 			Type iface = TypeRegistry.GetInterface(name);
 			T val = TypeRegistry.GetInstance<T>(iface);
+
+			// add children
+			object tchildren;
+			if (content.TryGetValue("children", out tchildren)) { // "children" is optional
+				if (!(tchildren is IList<object>)) {
+					throw new Exception("`children` must be a list.");
+				}
+				List<object> children = tchildren as List<object>;
+				foreach (object tchild in children) {
+					if (!(tchild is IDictionary<string, object>)) {
+						throw new Exception("`children` must be a list containing dictionaries.");
+					}
+					val.AddChild<T>(Construct<T>(tchild as IDictionary<string, object>));
+				}
+			}
+
 			return val;
 		}
 
@@ -99,13 +118,10 @@ namespace Stucco
 			}
 		}
 
-		public void VisitChildren<T>(NodeChildVisitor<T> visitor)
+		public void VisitChildren<T>(NodeChildVisitor<T> visitor) where T : INode
 		{
 			foreach (T item in _children[typeof(T)]) {
-				Console.WriteLine("visiting: " + item);
-				if (item != null) {
-					visitor(item);
-				}
+				visitor(item);
 			}
 		}
 	}
